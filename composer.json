@@ -1,0 +1,12 @@
+{
+	"name": "lecrapal/gtd-php",
+	"description": "GTD PHP",
+	"require": {
+		"php": ">=8.2.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"GTD\\": "src/"
+		}
+	}
+}
