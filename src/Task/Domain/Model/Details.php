@@ -9,25 +9,24 @@ class Details
     public function __construct(
         private string $title,
         private string $description = '',
-        private string $notes  = '',
+        private string $notes = '',
     ) {
         $this->setTitle($title);
     }
 
-    public function getTitle(): string
-    {
-        return $this->title;
-    }
-
     public function setTitle(string $title): Details
     {
-        if(empty($title))
-        {
+        if (empty($title)) {
             throw new DomainException("Title can't be empty");
         }
 
         $this->title = $title;
         return $this;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 
     public function getDescription(): string

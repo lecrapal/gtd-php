@@ -17,11 +17,14 @@ interface TaskRepositoryInterface
     public function nextId(): TaskId;
 
     public function find(TaskId $id): ?Task;
+
     public function findUnlisted(TaskId $id): ?UnlistedTask;
 
     public function remove(TaskId $taskId): void;
+
     public function removeUnlisted(TaskId $taskId): void;
 
     public function findAll(): TaskCollection;
+
     public function findAllUnlisted(): UnlistedTaskCollection;
 }

@@ -8,9 +8,7 @@ readonly class CreateUnlistedTaskCommand
         private string $title,
         private string $description = '',
         private string $notes = '',
-        )
-    {
-    }
+    ) {}
 
     public function getTitle(): string
     {

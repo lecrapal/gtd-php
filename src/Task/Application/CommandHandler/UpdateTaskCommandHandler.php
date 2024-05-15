@@ -2,26 +2,26 @@
 
 namespace GTD\Task\Application\CommandHandler;
 
-use GTD\Task\Application\Command\UpdateUnlistedTaskCommand;
+use GTD\Task\Application\Command\UpdateTaskCommand;
 use GTD\Task\Application\Exception\ApplicationException;
 use GTD\Task\Domain\Model\Details;
 use GTD\Task\Repository\TaskRepositoryInterface;
 
-readonly class UpdateUnlistedTaskCommandHandler
+readonly class UpdateTaskCommandHandler
 {
     public function __construct(
         private TaskRepositoryInterface $taskRepository,
     ) {}
 
-    public function __invoke(UpdateUnlistedTaskCommand $command): void
+    public function __invoke(UpdateTaskCommand $command): void
     {
-        $unlistedTask = $this->taskRepository->findUnlisted($command->getTaskId());
+        $task = $this->taskRepository->find($command->getTaskId());
 
-        if($unlistedTask === null){
-            throw new ApplicationException("Unlisted task not found");
+        if($task === null){
+            throw new ApplicationException("Task not found");
         }
 
-        $unlistedTask->setDetails(
+        $task->setDetails(
             new Details(
                 $command->getTitle(),
                 $command->getDescription(),
@@ -29,6 +29,8 @@ readonly class UpdateUnlistedTaskCommandHandler
             )
         );
 
-        $this->taskRepository->saveUnlisted($unlistedTask);
+        $task->setDueDate($command->getDueDate());
+
+        $this->taskRepository->save($task);
     }
 }

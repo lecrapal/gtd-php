@@ -11,10 +11,7 @@ readonly class CreateUnlistedTaskCommandHandler
 {
     public function __construct(
         private TaskRepositoryInterface $taskRepository,
-        )
-    {
-    }
-
+    ) {}
 
     public function __invoke(CreateUnlistedTaskCommand $command): void
     {

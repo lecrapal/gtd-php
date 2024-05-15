@@ -7,7 +7,6 @@ use DomainException;
 
 readonly class DueDate
 {
-
     private function __construct(
         private string $date
     ) {}

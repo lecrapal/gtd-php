@@ -7,6 +7,9 @@ use GTD\Task\Domain\Model\Task;
 use GTD\Task\Domain\Model\TaskId;
 use IteratorAggregate;
 
+/**
+ * @implements IteratorAggregate<int, Task>
+ */
 class TaskCollection implements IteratorAggregate
 {
     /**
@@ -30,6 +33,17 @@ class TaskCollection implements IteratorAggregate
         }
     }
 
+    private function getTaskIndexById(TaskId $id): ?int
+    {
+        foreach ($this->tasks as $index => $existingTask) {
+            if ($existingTask->getId()->equals($id)) {
+                return $index;
+            }
+        }
+
+        return null;  // return null if task does not exist
+    }
+
     public function removeTask(Task $task): void
     {
         $index = $this->getTaskIndexById($task->getId());
@@ -45,18 +59,9 @@ class TaskCollection implements IteratorAggregate
         return count($this->tasks);
     }
 
+    /** @return ArrayIterator<int, Task> */
     public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->tasks);
-    }
-
-    private function getTaskIndexById(TaskId $id): ?int{
-        foreach ($this->tasks as $index => $existingTask) {
-            if ($existingTask->getId()->equals($id)) {
-                return $index;
-            }
-        }
-
-        return null;  // return null if task does not exist
     }
 }

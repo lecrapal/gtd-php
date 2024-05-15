@@ -3,24 +3,33 @@
 namespace GTD\Task\Application\CommandHandler;
 
 use GTD\Task\Application\Command\ConvertUnlistedTaskToTaskCommand;
-use GTD\Task\Domain\Model\DueDate;
-use GTD\Task\Domain\Model\ProjectId;
-use GTD\Task\Domain\Model\Task;
-use GTD\Task\Domain\Model\TaskId;
+use GTD\Task\Application\Exception\ApplicationException;
+use GTD\Task\Domain\Service\TaskService;
 use GTD\Task\Repository\TaskRepositoryInterface;
 
 readonly class ConvertUnlistedTaskToTaskCommandHandler
 {
     public function __construct(
+        private TaskService $taskService,
         private TaskRepositoryInterface $taskRepository,
-    )
-    {
-    }
+    ) {}
 
+    /**
+     * @throws ApplicationException
+     */
     public function __invoke(ConvertUnlistedTaskToTaskCommand $command): void
     {
         $unlistedTask = $this->taskRepository->findUnlisted($command->getUnlistedTaskId());
-        $task = Task::createFromUnlistedTask($unlistedTask, $command->getProjectId(), $command->getDueDate());
+
+        if($unlistedTask === null){
+            throw new ApplicationException("Unlisted task not found");
+        }
+
+        $task = $this->taskService->createTaskFromUnlistedTask(
+            $unlistedTask,
+            $command->getProjectId(),
+            $command->getDueDate()
+        );
 
         $this->taskRepository->save($task);
     }

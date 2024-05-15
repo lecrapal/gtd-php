@@ -7,56 +7,62 @@ use GTD\Task\Domain\Model\TaskId;
 use GTD\Task\Domain\Model\UnlistedTask;
 use IteratorAggregate;
 
+/**
+ * @implements IteratorAggregate<int, UnlistedTask>
+ */
 class UnlistedTaskCollection implements IteratorAggregate
 {
     /**
      * @var UnlistedTask[]
      */
-    private array $tasks;
+    private array $unlistedTasks;
 
-    public function __construct(UnlistedTask ...$tasks)
+    public function __construct(UnlistedTask ...$unlistedTasks)
     {
-        $this->tasks = $tasks;
+        $this->unlistedTasks = $unlistedTasks;
     }
 
-    public function putTask(UnlistedTask $task): void
+    public function putTask(UnlistedTask $unlistedTask): void
     {
-        $index = $this->getTaskIndexById($task->getId());
+        $index = $this->getTaskIndexById($unlistedTask->getId());
 
         if ($index !== null) {
-            $this->tasks[$index] = $task;
+            $this->unlistedTasks[$index] = $unlistedTask;
         } else {
-            $this->tasks[] = $task; // Add if task does not exist
+            $this->unlistedTasks[] = $unlistedTask; // Add if task does not exist
         }
     }
 
-    public function removeTask(UnlistedTask $task): void
+    private function getTaskIndexById(TaskId $id): ?int
     {
-        $index = $this->getTaskIndexById($task->getId());
-
-        if ($index !== null) {
-            unset($this->tasks[$index]);
-            $this->tasks = array_values($this->tasks);  // re-index keys
-        }
-    }
-
-    public function count(): int
-    {
-        return count($this->tasks);
-    }
-
-    public function getIterator(): ArrayIterator
-    {
-        return new ArrayIterator($this->tasks);
-    }
-
-    private function getTaskIndexById(TaskId $id): ?int{
-        foreach ($this->tasks as $index => $existingTask) {
-            if ($existingTask->getId()->equals($id)) {
+        foreach ($this->unlistedTasks as $index => $existingUnlistedTask) {
+            if ($existingUnlistedTask->getId()->equals($id)) {
                 return $index;
             }
         }
 
         return null;  // return null if task does not exist
+    }
+
+    public function removeTask(UnlistedTask $unlistedTask): void
+    {
+        $index = $this->getTaskIndexById($unlistedTask->getId());
+
+        if ($index !== null) {
+            unset($this->unlistedTasks[$index]);
+            $this->unlistedTasks = array_values($this->unlistedTasks);  // re-index keys
+        }
+    }
+
+    public function count(): int
+    {
+        return count($this->unlistedTasks);
+    }
+
+
+    /** @return ArrayIterator<int, UnlistedTask> */
+    public function getIterator(): ArrayIterator
+    {
+        return new ArrayIterator($this->unlistedTasks);
     }
 }

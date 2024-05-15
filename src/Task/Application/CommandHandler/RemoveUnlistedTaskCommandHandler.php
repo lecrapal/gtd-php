@@ -2,18 +2,17 @@
 
 namespace GTD\Task\Application\CommandHandler;
 
-use GTD\Task\Application\Command\UpdateUnlistedTaskCommand;
+use GTD\Task\Application\Command\RemoveUnlistedTaskCommand;
 use GTD\Task\Application\Exception\ApplicationException;
-use GTD\Task\Domain\Model\Details;
 use GTD\Task\Repository\TaskRepositoryInterface;
 
-readonly class UpdateUnlistedTaskCommandHandler
+readonly class RemoveUnlistedTaskCommandHandler
 {
     public function __construct(
         private TaskRepositoryInterface $taskRepository,
     ) {}
 
-    public function __invoke(UpdateUnlistedTaskCommand $command): void
+    public function __invoke(RemoveUnlistedTaskCommand $command): void
     {
         $unlistedTask = $this->taskRepository->findUnlisted($command->getTaskId());
 
@@ -21,14 +20,6 @@ readonly class UpdateUnlistedTaskCommandHandler
             throw new ApplicationException("Unlisted task not found");
         }
 
-        $unlistedTask->setDetails(
-            new Details(
-                $command->getTitle(),
-                $command->getDescription(),
-                $command->getNotes()
-            )
-        );
-
-        $this->taskRepository->saveUnlisted($unlistedTask);
+        $this->taskRepository->removeUnlisted($command->getTaskId());
     }
 }

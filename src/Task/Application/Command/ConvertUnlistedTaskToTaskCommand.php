@@ -2,8 +2,8 @@
 
 namespace GTD\Task\Application\Command;
 
+use GTD\Project\Domain\Model\ProjectId;
 use GTD\Task\Domain\Model\DueDate;
-use GTD\Task\Domain\Model\ProjectId;
 use GTD\Task\Domain\Model\TaskId;
 
 readonly class ConvertUnlistedTaskToTaskCommand
@@ -12,9 +12,7 @@ readonly class ConvertUnlistedTaskToTaskCommand
         private TaskId $unlistedTaskId,
         private ProjectId $projectId,
         private ?DueDate $dueDate = null
-        )
-    {
-    }
+    ) {}
 
     public function getUnlistedTaskId(): TaskId
     {

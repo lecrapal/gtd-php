@@ -2,15 +2,17 @@
 
 namespace GTD\Task\Domain\Model;
 
+use GTD\Project\Domain\Model\ProjectId;
+
 class Task
 {
     public function __construct(
         private readonly TaskId $id,
         private ProjectId $projectId,
         private Details $details,
+        private ?DueDate $dueDate = null,
         private Status $status = Status::Open,
-        private Priority $priority = Priority::Medium,
-        private ?DueDate $dueDate = null
+        private Priority $priority = Priority::Medium
     ) {
         if ($dueDate !== null && $dueDate < DueDate::fromDateTime(new \DateTime())) {
             throw new \InvalidArgumentException('Due date cannot be in the past');
@@ -21,14 +23,11 @@ class Task
         UnlistedTask $unlistedTask,
         ProjectId $projectId,
         ?DueDate $dueDate = null
-    ): Task
-    {
+    ): Task {
         return new Task(
             $unlistedTask->getId(),
             $projectId,
             $unlistedTask->getDetails(),
-            Status::Open,
-            Priority::Medium,
             $dueDate
         );
     }
@@ -36,6 +35,11 @@ class Task
     public function getId(): TaskId
     {
         return $this->id;
+    }
+
+    public function getDetails(): Details
+    {
+        return $this->details;
     }
 
     public function getProjectId(): ProjectId
@@ -49,11 +53,6 @@ class Task
         return $this;
     }
 
-    public function getDetails(): Details
-    {
-        return $this->details;
-    }
-
     public function setDetails(Details $details): Task
     {
         $this->details = $details;
@@ -63,12 +62,6 @@ class Task
     public function getStatus(): Status
     {
         return $this->status;
-    }
-
-    public function setStatus(Status $status): Task
-    {
-        $this->status = $status;
-        return $this;
     }
 
     public function getPriority(): Priority
@@ -82,12 +75,12 @@ class Task
         return $this;
     }
 
-    public function getDueDate(): DueDate
+    public function getDueDate(): ?DueDate
     {
         return $this->dueDate;
     }
 
-    public function setDueDate(DueDate $dueDate): Task
+    public function setDueDate(?DueDate $dueDate): Task
     {
         $this->dueDate = $dueDate;
         return $this;
@@ -98,9 +91,14 @@ class Task
         $this->setStatus(Status::InProgress);
     }
 
+    public function setStatus(Status $status): Task
+    {
+        $this->status = $status;
+        return $this;
+    }
+
     public function done(): void
     {
         $this->setStatus(Status::Done);
     }
-
 }

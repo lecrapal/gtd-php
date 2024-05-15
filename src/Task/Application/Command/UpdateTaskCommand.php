@@ -2,15 +2,17 @@
 
 namespace GTD\Task\Application\Command;
 
+use GTD\Task\Domain\Model\DueDate;
 use GTD\Task\Domain\Model\TaskId;
 
-readonly class UpdateUnlistedTaskCommand
+readonly class UpdateTaskCommand
 {
     public function __construct(
         private TaskId $taskId,
         private string $title,
         private string $description = '',
         private string $notes = '',
+        private ?DueDate $dueDate = null,
     ) {}
 
     public function getTaskId(): TaskId
@@ -31,5 +33,10 @@ readonly class UpdateUnlistedTaskCommand
     public function getNotes(): string
     {
         return $this->notes;
+    }
+
+    public function getDueDate(): ?DueDate
+    {
+        return $this->dueDate;
     }
 }
