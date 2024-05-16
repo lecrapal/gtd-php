@@ -5,7 +5,7 @@ namespace GTD\Task\Application\QueryHandler;
 use GTD\Task\Application\Contract\ShowTaskPresenter;
 use GTD\Task\Application\Exception\ApplicationException;
 use GTD\Task\Application\Query\ShowTaskQuery;
-use GTD\Task\Repository\TaskRepositoryInterface;
+use GTD\Task\Domain\Repository\TaskRepositoryInterface;
 
 readonly class ShowTaskQueryHandler
 {

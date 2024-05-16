@@ -3,9 +3,8 @@
 namespace GTD\Task\Application\CommandHandler;
 
 use GTD\Task\Application\Command\RemoveTaskCommand;
-use GTD\Task\Application\Command\SwitchProjectCommand;
 use GTD\Task\Application\Exception\ApplicationException;
-use GTD\Task\Repository\TaskRepositoryInterface;
+use GTD\Task\Domain\Repository\TaskRepositoryInterface;
 
 readonly class RemoveTaskCommandHandler
 {

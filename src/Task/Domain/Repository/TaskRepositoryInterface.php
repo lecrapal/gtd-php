@@ -1,6 +1,6 @@
 <?php
 
-namespace GTD\Task\Repository;
+namespace GTD\Task\Domain\Repository;
 
 use GTD\Task\Domain\Collection\TaskCollection;
 use GTD\Task\Domain\Collection\UnlistedTaskCollection;
@@ -24,7 +24,19 @@ interface TaskRepositoryInterface
 
     public function removeUnlisted(TaskId $taskId): void;
 
-    public function findAll(): TaskCollection;
+    public function findAll(
+        string $filter = '',
+        string $orderBy = '',
+        string $orderDirection = '',
+        int $limit = 50,
+        int $offset = 0
+    ): TaskCollection;
 
-    public function findAllUnlisted(): UnlistedTaskCollection;
+    public function findAllUnlisted(
+        string $filter = '',
+        string $orderBy = '',
+        string $orderDirection = '',
+        int $limit = 50,
+        int $offset = 0
+    ): UnlistedTaskCollection;
 }

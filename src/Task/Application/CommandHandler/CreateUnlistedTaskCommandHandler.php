@@ -5,7 +5,7 @@ namespace GTD\Task\Application\CommandHandler;
 use GTD\Task\Application\Command\CreateUnlistedTaskCommand;
 use GTD\Task\Domain\Model\Details;
 use GTD\Task\Domain\Model\UnlistedTask;
-use GTD\Task\Repository\TaskRepositoryInterface;
+use GTD\Task\Domain\Repository\TaskRepositoryInterface;
 
 readonly class CreateUnlistedTaskCommandHandler
 {

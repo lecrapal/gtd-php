@@ -7,5 +7,5 @@ use GTD\Task\Domain\Model\Task;
 interface ShowTaskPresenter
 {
 
-    public function present(Task $task);
+    public function present(Task $task): void;
 }

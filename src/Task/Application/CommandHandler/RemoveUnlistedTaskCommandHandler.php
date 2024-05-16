@@ -4,7 +4,7 @@ namespace GTD\Task\Application\CommandHandler;
 
 use GTD\Task\Application\Command\RemoveUnlistedTaskCommand;
 use GTD\Task\Application\Exception\ApplicationException;
-use GTD\Task\Repository\TaskRepositoryInterface;
+use GTD\Task\Domain\Repository\TaskRepositoryInterface;
 
 readonly class RemoveUnlistedTaskCommandHandler
 {

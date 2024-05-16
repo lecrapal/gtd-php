@@ -5,7 +5,7 @@ namespace GTD\Task\Application\CommandHandler;
 use GTD\Task\Application\Command\UpdateUnlistedTaskCommand;
 use GTD\Task\Application\Exception\ApplicationException;
 use GTD\Task\Domain\Model\Details;
-use GTD\Task\Repository\TaskRepositoryInterface;
+use GTD\Task\Domain\Repository\TaskRepositoryInterface;
 
 readonly class UpdateUnlistedTaskCommandHandler
 {
